@@ -2,11 +2,11 @@ package com.example.issuetracker.domain.entities;
 
 import java.time.Instant;
 
-public class BaseEntity {
+public abstract class BaseEntity {
 
-    private Long id;
+    protected Long id;
 
-    private Instant createdAt;
+    protected Instant createdAt;
 
-    private Instant updatedAt;
+    protected Instant updatedAt;
 }
