@@ -26,4 +26,21 @@ public class Project extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
+
+    protected Project() {}
+
+    public Project(String name, User owner, String description) {
+
+        if(name == null || name.isBlank()){
+            throw new IllegalArgumentException("Project name must be provided");
+        }
+        if(owner == null){
+            throw new IllegalArgumentException("The project must have an owner assigned");
+        }
+
+        this.name = name;
+        this.description = description;
+        this.owner = owner;
+    }
+
 }

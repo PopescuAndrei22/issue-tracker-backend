@@ -37,4 +37,27 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy="reporter")
     private List<Issue> reportedIssues = new ArrayList<>();
+
+    protected User() {}
+
+    public User(String username, String password, String email, Role role) {
+
+        if(username == null || username.isBlank()){
+            throw new IllegalArgumentException("The username cannot be blank");
+        }
+        if(password == null || password.isBlank()){
+            throw new IllegalArgumentException("The password cannot be blank");
+        }
+        if(email == null || email.isBlank()){
+            throw new IllegalArgumentException("The email cannot be blank");
+        }
+        if(role == null){
+            throw new IllegalArgumentException("The role must be provided");
+        }
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
 }
