@@ -2,6 +2,7 @@ package com.example.issuetracker.domain.entities;
 
 import com.example.issuetracker.domain.models.IssueType;
 import com.example.issuetracker.domain.models.Priority;
+import com.example.issuetracker.domain.models.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,10 @@ public class Issue extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.IN_PROGRESS;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id", nullable = false)
