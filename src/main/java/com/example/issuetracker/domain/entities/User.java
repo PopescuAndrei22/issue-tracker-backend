@@ -38,6 +38,24 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy="reporter")
     private List<Issue> reportedIssues = new ArrayList<>();
 
+    void addProject(Project project){
+        if(!this.projects.contains(project)){
+            this.projects.add(project);
+        }
+    }
+
+    void addAssignedIssue(Issue issue){
+        if(!this.assignedIssues.contains(issue)){
+            this.assignedIssues.add(issue);
+        }
+    }
+
+    void addReportedIssue(Issue issue){
+        if(!this.reportedIssues.contains(issue)){
+            this.reportedIssues.add(issue);
+        }
+    }
+
     protected User() {}
 
     public User(String username, String password, String email, Role role) {

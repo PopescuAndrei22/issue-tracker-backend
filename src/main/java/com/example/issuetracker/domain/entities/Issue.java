@@ -42,6 +42,33 @@ public class Issue extends BaseEntity {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    private void assignToProject(Project project){
+        if(project == null){
+            throw new IllegalArgumentException("The project cannot be null");
+        }
+
+        this.project = project;
+        project.addIssue(this);
+    }
+
+    private void assignToAssignee(User assignee){
+
+        this.assignee = assignee;
+
+        if(assignee != null){
+            assignee.addAssignedIssue(this);
+        }
+    }
+
+    private void assignToReporter(User reporter){
+        if(reporter == null){
+            throw new IllegalArgumentException("The reporter cannot be null");
+        }
+
+        this.reporter = reporter;
+        reporter.addReportedIssue(this);
+    }
+
     protected Issue() {}
 
     private Issue(IssueBuilder issueBuilder){
@@ -49,9 +76,9 @@ public class Issue extends BaseEntity {
         this.description = issueBuilder.description;
         this.type = issueBuilder.type;
         this.priority = issueBuilder.priority;
-        this.reporter = issueBuilder.reporter;
-        this.assignee = issueBuilder.assignee;
-        this.project = issueBuilder.project;
+        this.assignToReporter(issueBuilder.reporter);
+        this.assignToAssignee(issueBuilder.assignee);
+        this.assignToProject(issueBuilder.project);
     }
 
     public static IssueBuilder builder(){

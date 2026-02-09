@@ -27,6 +27,17 @@ public class Project extends BaseEntity{
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    void addIssue(Issue issue){
+        if(!this.issues.contains(issue)){
+            this.issues.add(issue);
+        }
+    }
+
+    private void assignToOwner(User owner){
+        this.owner = owner;
+        owner.addProject(this);
+    }
+
     protected Project() {}
 
     public Project(String name, User owner, String description) {
@@ -40,7 +51,7 @@ public class Project extends BaseEntity{
 
         this.name = name;
         this.description = description;
-        this.owner = owner;
+        this.assignToOwner(owner);
     }
 
 }
