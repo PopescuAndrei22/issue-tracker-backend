@@ -30,13 +30,13 @@ public class User extends BaseEntity {
     private Role role;
 
     @OneToMany(mappedBy="owner")
-    private List<Project> projects = new ArrayList<>();
+    private final List<Project> projects = new ArrayList<>();
 
     @OneToMany(mappedBy="assignee")
-    private List<Issue> assignedIssues = new ArrayList<>();
+    private final List<Issue> assignedIssues = new ArrayList<>();
 
     @OneToMany(mappedBy="reporter")
-    private List<Issue> reportedIssues = new ArrayList<>();
+    private final List<Issue> reportedIssues = new ArrayList<>();
 
     void addProject(Project project){
         if(!this.projects.contains(project)){
@@ -48,6 +48,10 @@ public class User extends BaseEntity {
         if(!this.assignedIssues.contains(issue)){
             this.assignedIssues.add(issue);
         }
+    }
+
+    void removeAssignedIssue(Issue issue){
+        this.assignedIssues.remove(issue);
     }
 
     void addReportedIssue(Issue issue){
@@ -77,5 +81,29 @@ public class User extends BaseEntity {
         this.password = password;
         this.email = email;
         this.role = role;
+    }
+
+    public void changeEmail(String newEmail){
+        this.email = newEmail;
+    }
+
+    public void changePassword(String newPassword){
+        this.password = newPassword;
+    }
+
+    public void changeRole(Role newRole){
+        this.role = newRole;
+    }
+
+    public List<Project> getProjects(){
+        return List.copyOf(this.projects);
+    }
+
+    public List<Issue> getAssignedIssues(){
+        return List.copyOf(this.assignedIssues);
+    }
+
+    public List<Issue> getReportedIssues(){
+        return List.copyOf(this.reportedIssues);
     }
 }
