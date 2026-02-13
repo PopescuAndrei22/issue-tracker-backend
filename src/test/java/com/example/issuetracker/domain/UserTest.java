@@ -1,6 +1,7 @@
 package com.example.issuetracker.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -62,5 +63,12 @@ public class UserTest {
         assertThatThrownBy(() -> 
                 new User("username", "password", "email@company.com" , null))
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldNotThrowErrorUponInstantiation(){
+        assertDoesNotThrow(() ->
+            new User("username", "password", "email@company.com" , Role.MANAGER)
+        );
     }
 }

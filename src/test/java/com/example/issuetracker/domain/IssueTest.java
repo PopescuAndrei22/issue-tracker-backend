@@ -1,6 +1,7 @@
 package com.example.issuetracker.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -80,5 +81,17 @@ public class IssueTest {
                     .project(project)
                     .build())
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+   @Test
+    void shouldNotThrowErrorUponInstantiation(){
+        assertDoesNotThrow(() ->
+            Issue.builder()
+                .title("Fix bug login")
+                .reporter(reporter)
+                .project(project)
+                .type(IssueType.BUG)
+                .build()
+        );
     }
 }
