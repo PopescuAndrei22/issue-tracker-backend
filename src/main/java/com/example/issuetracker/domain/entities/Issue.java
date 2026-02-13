@@ -95,7 +95,7 @@ public class Issue extends BaseEntity {
         private String description;
         private String title;
         private IssueType type;
-        private Priority priority;
+        private Priority priority = Priority.MEDIUM;
         private User reporter;
         private User assignee;
         private Project project;
@@ -143,9 +143,6 @@ public class Issue extends BaseEntity {
             }
             if(this.type == null){
                 throw new IllegalArgumentException("The issue type must be provided");
-            }
-            if(this.priority == null){
-                throw new IllegalArgumentException("The priority must be provided");
             }
             if(this.reporter == null){
                 throw new IllegalArgumentException("The reporter must be provided");
