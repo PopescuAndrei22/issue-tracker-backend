@@ -29,5 +29,38 @@ public class UserTest {
         assertThatThrownBy(() -> 
                 new User(null, "password", "email@company.com", Role.ADMIN))
             .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> 
+                new User("", "password", "email@company.com", Role.ADMIN))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldThrowErrorWhenPasswordIsMissing(){
+        assertThatThrownBy(() -> 
+                new User("username", null, "email@company.com", Role.ADMIN))
+            .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> 
+                new User("username", "", "email@company.com", Role.ADMIN))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldThrowErrorWhenEmailIsMissing(){
+        assertThatThrownBy(() -> 
+                new User("username", "password", null , Role.ADMIN))
+            .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> 
+                new User("username", "password", "" , Role.ADMIN))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldThrowErrorWhenRoleIsMissing(){
+        assertThatThrownBy(() -> 
+                new User("username", "password", "email@company.com" , null))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }
