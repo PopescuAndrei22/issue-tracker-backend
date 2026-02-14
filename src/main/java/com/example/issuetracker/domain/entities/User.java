@@ -68,39 +68,42 @@ public class User extends BaseEntity {
 
     public User(String username, String password, String email, Role role) {
 
+        this.changeUsername(username);
+        this.changePassword(password);
+        this.changeEmail(email);
+        this.changeRole(role);
+    }
+
+    private void changeUsername(String username){
         if(username == null || username.isBlank()){
             throw new IllegalArgumentException("The username cannot be blank");
         }
-        if(password == null || password.isBlank()){
-            throw new IllegalArgumentException("The password cannot be blank");
-        }
+        this.username = username;
+    }
+
+    public void changeEmail(String email){
         if(email == null || email.isBlank()){
             throw new IllegalArgumentException("The email cannot be blank");
         }
-        if(role == null){
-            throw new IllegalArgumentException("The role must be provided");
-        }
-
-        this.username = username;
-        this.password = password;
         this.email = email;
-        this.role = role;
-    }
-
-    public void changeEmail(String newEmail){
-        this.email = newEmail;
     }
 
     public String getEmail(){
         return this.email;
     }
 
-    public void changePassword(String newPassword){
-        this.password = newPassword;
+    public void changePassword(String password){
+        if(password == null || password.isBlank()){
+            throw new IllegalArgumentException("The password cannot be blank");
+        }
+        this.password = password;
     }
 
-    public void changeRole(Role newRole){
-        this.role = newRole;
+    public void changeRole(Role role){
+        if(role == null){
+            throw new IllegalArgumentException("The role must be provided");
+        }
+        this.role = role;
     }
 
     public Role getRole(){
