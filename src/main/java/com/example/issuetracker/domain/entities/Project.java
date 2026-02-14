@@ -41,19 +41,16 @@ public class Project extends BaseEntity{
 
     public Project(String name, User owner, String description) {
 
-        if(name == null || name.isBlank()){
-            throw new IllegalArgumentException("Project name must be provided");
-        }
-        if(owner == null){
-            throw new IllegalArgumentException("The project must have an owner assigned");
-        }
-
-        this.name = name;
-        this.description = description;
+        this.renameProject(name);
+        this.changeDescription(description);
         this.assignToOwner(owner);
     }
 
     private void assignToOwner(User owner){
+        if(owner == null){
+            throw new IllegalArgumentException("The project must have an owner assigned");
+        }
+
         this.owner = owner;
         owner.addProject(this);
     }
