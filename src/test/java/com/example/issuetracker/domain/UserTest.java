@@ -2,18 +2,16 @@ package com.example.issuetracker.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.example.issuetracker.domain.entities.Issue;
 import com.example.issuetracker.domain.entities.User;
-import com.example.issuetracker.domain.models.IssueType;
 import com.example.issuetracker.domain.models.Role;
 
 public class UserTest {
 
-    static User user;
+    private static User user;
 
     @BeforeAll
     static void initialSetUp(){
@@ -70,5 +68,23 @@ public class UserTest {
         assertDoesNotThrow(() ->
             new User("username", "password", "email@company.com" , Role.MANAGER)
         );
+    }
+
+    @Test
+    void shouldChangeTheEmailCorrectly(){
+
+        String testEmail = "testemail@mycompany.com";
+        user.changeEmail(testEmail);
+
+        assertEquals(user.getEmail(), testEmail, "The email cannot be changed correctly");
+
+    }
+
+    @Test
+    void shouldChangeTheRoleCorrectly(){
+        Role testRole = Role.ADMIN;
+        user.changeRole(testRole);
+
+        assertEquals(user.getRole(), testRole, "The role cannot be changed correctly");
     }
 }
