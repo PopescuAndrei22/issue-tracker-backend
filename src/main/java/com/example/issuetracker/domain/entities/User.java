@@ -44,6 +44,10 @@ public class User extends BaseEntity {
         }
     }
 
+    void removeProject(Project project){
+        this.projects.remove(project);
+    }
+
     void addAssignedIssue(Issue issue){
         if(!this.assignedIssues.contains(issue)){
             this.assignedIssues.add(issue);

@@ -21,7 +21,7 @@ public class Project extends BaseEntity{
     private String description;
 
     @OneToMany(mappedBy="project")
-    private List<Issue> issues = new ArrayList<>();
+    private final List<Issue> issues = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
@@ -33,9 +33,8 @@ public class Project extends BaseEntity{
         }
     }
 
-    private void assignToOwner(User owner){
-        this.owner = owner;
-        owner.addProject(this);
+    void removeIssue(Issue issue){
+        this.issues.remove(issue);
     }
 
     protected Project() {}
@@ -54,4 +53,32 @@ public class Project extends BaseEntity{
         this.assignToOwner(owner);
     }
 
+    private void assignToOwner(User owner){
+        this.owner = owner;
+        owner.addProject(this);
+    }
+
+    public void transferOwnership(User newOwner){
+        owner.removeProject(this);
+        this.assignToOwner(newOwner);
+    }
+
+    public void renameProject(String name){
+        if(name == null || name.isBlank()){
+            throw new IllegalArgumentException("Project name must be provided");
+        }
+        this.name = name;
+    }
+
+    public void changeDescription(String description){
+        this.description = description;
+    }
+
+    public boolean hasOpenIssues(){
+        return !this.issues.isEmpty();
+    }
+
+    public List<Issue> getIssues(){
+        return List.copyOf(this.issues);
+    }
 }
