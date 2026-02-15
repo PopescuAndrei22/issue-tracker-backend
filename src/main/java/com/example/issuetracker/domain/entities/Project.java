@@ -28,9 +28,7 @@ public class Project extends BaseEntity{
     private User owner;
 
     void addIssue(Issue issue){
-        if(!this.issues.contains(issue)){
-            this.issues.add(issue);
-        }
+        this.issues.add(issue);
     }
 
     void removeIssue(Issue issue){
@@ -41,30 +39,49 @@ public class Project extends BaseEntity{
 
     public Project(String name, User owner, String description) {
 
-        this.renameProject(name);
-        this.changeDescription(description);
+        this.name = validateName(name);
+        this.description = description;
         this.assignToOwner(owner);
     }
 
-    private void assignToOwner(User owner){
+    private String validateName(String name){
+        if(name == null || name.isBlank()){
+            throw new IllegalArgumentException("Project name must be provided");
+        }
+        return name;
+    }
+
+    private User validateOwner(User owner){
         if(owner == null){
             throw new IllegalArgumentException("The project must have an owner assigned");
         }
+        return owner;
+    }
+
+    private void assignToOwner(User owner){
+        owner = validateOwner(owner);
 
         this.owner = owner;
-        owner.addProject(this);
+        this.owner.addProject(this);
     }
 
     public void transferOwnership(User newOwner){
-        owner.removeProject(this);
+
+        if(this.owner.equals(newOwner)){
+            return;
+        }
+
+        newOwner = validateOwner(newOwner);
+
+        if(this.owner != null){
+            this.owner.removeProject(this);
+        }
+
         this.assignToOwner(newOwner);
     }
 
     public void renameProject(String name){
-        if(name == null || name.isBlank()){
-            throw new IllegalArgumentException("Project name must be provided");
-        }
-        this.name = name;
+        this.name = validateName(name);
     }
 
     public void changeDescription(String description){
