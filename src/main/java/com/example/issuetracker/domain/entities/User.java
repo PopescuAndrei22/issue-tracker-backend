@@ -39,9 +39,7 @@ public class User extends BaseEntity {
     private final List<Issue> reportedIssues = new ArrayList<>();
 
     void addProject(Project project){
-        if(!this.projects.contains(project)){
-            this.projects.add(project);
-        }
+        this.projects.add(project);
     }
 
     void removeProject(Project project){
@@ -49,9 +47,7 @@ public class User extends BaseEntity {
     }
 
     void addAssignedIssue(Issue issue){
-        if(!this.assignedIssues.contains(issue)){
-            this.assignedIssues.add(issue);
-        }
+        this.assignedIssues.add(issue);
     }
 
     void removeAssignedIssue(Issue issue){
@@ -59,51 +55,75 @@ public class User extends BaseEntity {
     }
 
     void addReportedIssue(Issue issue){
-        if(!this.reportedIssues.contains(issue)){
-            this.reportedIssues.add(issue);
-        }
+        this.reportedIssues.add(issue);
     }
 
     protected User() {}
 
     public User(String username, String password, String email, Role role) {
 
-        this.changeUsername(username);
-        this.changePassword(password);
-        this.changeEmail(email);
-        this.changeRole(role);
+        this.username = validateUsername(username);
+        this.password = validatePassword(password);
+        this.email = validateEmail(email);
+        this.role = validateRole(role);
     }
 
-    private void changeUsername(String username){
+    private String validateUsername(String username){
         if(username == null || username.isBlank()){
             throw new IllegalArgumentException("The username cannot be blank");
         }
-        this.username = username;
+
+        return username;
     }
 
-    public void changeEmail(String email){
+    private String validateEmail(String email){
         if(email == null || email.isBlank()){
             throw new IllegalArgumentException("The email cannot be blank");
         }
-        this.email = email;
+
+        return email;
+    }
+
+    private String validatePassword(String password){
+        if(password == null || password.isBlank()){
+            throw new IllegalArgumentException("The password cannot be blank");
+        }
+        return password;
+    }
+
+    private Role validateRole(Role role){
+        if(role == null){
+            throw new IllegalArgumentException("The role must be provided");
+        }
+        return role;
+    }
+
+    public void changeUsername(String username){
+        this.username = validateUsername(username);
+    }
+
+    public void changeEmail(String email){
+        this.email = validateEmail(email);
+    }
+
+    public void changePassword(String password){
+        this.password = validatePassword(password);
+    }
+
+    public void changeRole(Role role){
+        this.role = validateRole(role);
+    }
+
+    public boolean matchesPassword(String password){
+        return this.password.equals(validatePassword(password));
+    }
+
+    public String getUsername(){
+        return this.username;
     }
 
     public String getEmail(){
         return this.email;
-    }
-
-    public void changePassword(String password){
-        if(password == null || password.isBlank()){
-            throw new IllegalArgumentException("The password cannot be blank");
-        }
-        this.password = password;
-    }
-
-    public void changeRole(Role role){
-        if(role == null){
-            throw new IllegalArgumentException("The role must be provided");
-        }
-        this.role = role;
     }
 
     public Role getRole(){
