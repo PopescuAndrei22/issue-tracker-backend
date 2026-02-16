@@ -74,6 +74,26 @@ public class Issue extends BaseEntity {
         reporter.addReportedIssue(this);
     }
 
+    public void changeStatus(Status newStatus){
+        this.status = newStatus;
+    }
+
+    public void changePriority(Priority newPriority){
+        this.priority = newPriority;
+    }
+
+    public void changeType(IssueType type){
+        this.type = type;
+    }
+
+    public void updateDescription(String description){
+        this.description = description;
+    }
+
+    public void updateTitle(String title){
+        this.title = title;
+    }
+
     protected Issue() {}
 
     private Issue(IssueBuilder issueBuilder){
