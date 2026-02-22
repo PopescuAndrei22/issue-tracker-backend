@@ -1,5 +1,7 @@
 package com.example.issuetracker.web.controllers;
 
+import java.net.URI;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +24,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createUser(@Valid @RequestBody UserCreateDTO dto){
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserCreateDTO dto){
+
+        UserResponseDTO createdUser = userService.createUser(dto);
+
+        URI location = URI.create("/users/" + createdUser.id());
+
+        return ResponseEntity
+                .created(location)
+                .body(createdUser);
     }
 }

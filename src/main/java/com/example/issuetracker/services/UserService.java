@@ -3,7 +3,10 @@ package com.example.issuetracker.services;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.repositories.UserRepository;
+import com.example.issuetracker.web.dto.UserCreateDTO;
+import com.example.issuetracker.web.dto.UserResponseDTO;
 import com.example.issuetracker.web.mappers.UserMapper;
 
 import jakarta.transaction.Transactional;
@@ -24,5 +27,20 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+    }
+
+    public UserResponseDTO createUser(UserCreateDTO dto){
+        String hashedPassword = passwordEncoder.encode(dto.password());
+
+        User user = new User( 
+            dto.username(),
+            hashedPassword,
+            dto.email(),
+            dto.role()
+        );
+
+        User savedUser = userRepository.save(user);
+
+        return userMapper.toResponseDTO(savedUser);
     }
 }

@@ -11,7 +11,7 @@ import com.example.issuetracker.web.dto.UserResponseDTO;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
-    UserResponseDTO toResponseDTO(User user);
+    public UserResponseDTO toResponseDTO(User user);
 
-    List<UserResponseDTO> toResponseDTOList(List<User> users);
+    public List<UserResponseDTO> toResponseDTOList(List<User> users);
 }
