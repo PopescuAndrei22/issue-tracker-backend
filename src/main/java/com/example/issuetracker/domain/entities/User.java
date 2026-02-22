@@ -130,6 +130,10 @@ public class User extends BaseEntity {
         return this.role;
     }
 
+    public Long getId(){
+        return id;
+    }
+    
     public List<Project> getProjects(){
         return List.copyOf(this.projects);
     }
