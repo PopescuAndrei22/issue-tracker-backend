@@ -43,4 +43,10 @@ public class UserService {
 
         return userMapper.toResponseDTO(savedUser);
     }
+
+    public UserResponseDTO getUserById(Long id){
+        return userRepository.findById(id)
+                                .map(userMapper::toResponseDTO)
+                                .orElseThrow(() -> new RuntimeException("User with id " + id + " not found."));
+    }
 }
