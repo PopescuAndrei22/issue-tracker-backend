@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.example.issuetracker.domain.entities.Project;
 import com.example.issuetracker.domain.entities.User;
@@ -62,9 +64,9 @@ public class ProjectTest {
         );
     }
 
-    @Test
-    void shouldRenameProjectCorrectly(){
-        String testProjectName = "Issue tracker";
+    @ParameterizedTest
+    @ValueSource(strings = {"Internal tool", "Payment microservice"})
+    void shouldRenameProjectCorrectly(String testProjectName){
 
         project.renameProject(testProjectName);
 

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.domain.models.Role;
@@ -80,9 +82,9 @@ public class UserTest {
 
     }
 
-    @Test
-    void shouldChangeTheRoleCorrectly(){
-        Role testRole = Role.ADMIN;
+    @ParameterizedTest
+    @EnumSource(Role.class)
+    void shouldChangeTheRoleCorrectly(Role testRole){
         user.changeRole(testRole);
 
         assertEquals(user.getRole(), testRole, "The role cannot be changed correctly");
