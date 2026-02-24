@@ -1,14 +1,10 @@
 package com.example.issuetracker.domain.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,9 +16,6 @@ public class Project extends BaseEntity{
 
     private String description;
 
-    @OneToMany(mappedBy="project")
-    private final List<Issue> issues = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
@@ -32,8 +25,8 @@ public class Project extends BaseEntity{
     public Project(String name, User owner, String description) {
 
         this.name = validateName(name);
-        this.description = description;
-        this.assignToOwner(owner);
+        this.description = validateDescription(description);
+        this.owner = validateOwner(owner);
     }
 
     private String validateName(String name){
@@ -50,10 +43,11 @@ public class Project extends BaseEntity{
         return owner;
     }
 
-    private void assignToOwner(User owner){
-        owner = validateOwner(owner);
-
-        this.owner = owner;
+    private String validateDescription(String description){
+        if(description == null || description.isBlank()){
+            return "";
+        }
+        return description;
     }
 
     public void transferOwnership(User newOwner){
@@ -63,8 +57,7 @@ public class Project extends BaseEntity{
         }
 
         newOwner = validateOwner(newOwner);
-        
-        this.assignToOwner(newOwner);
+        this.owner = newOwner;
     }
 
     public void renameProject(String name){
@@ -75,11 +68,11 @@ public class Project extends BaseEntity{
         this.description = description;
     }
 
-    public boolean hasOpenIssues(){
-        return !this.issues.isEmpty();
+    public String getProjectName(){
+        return this.name;
     }
 
-    public List<Issue> getIssues(){
-        return List.copyOf(this.issues);
+    public String getDescription(){
+        return this.description;
     }
 }
