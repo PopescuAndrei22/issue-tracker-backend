@@ -2,8 +2,7 @@ package com.example.issuetracker.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.fail;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,8 @@ import com.example.issuetracker.domain.models.Role;
 
 public class ProjectTest {
 
-    static User owner;
+    private static User owner;
+    private static Project project;
     
     @BeforeAll
     static void initialSetUp(){
@@ -23,6 +23,11 @@ public class ProjectTest {
         Role role = Role.USER;
 
         owner = new User(username, password, email, role);
+
+        String projectName = "First project";
+        String description = "";
+
+        project = new Project(projectName, owner, description);
     }
 
     @Test
@@ -51,5 +56,27 @@ public class ProjectTest {
         assertDoesNotThrow(() ->
             new Project("project name", owner, "project description")
         );
+
+        assertDoesNotThrow(() ->
+            new Project("project name", owner, null)
+        );
+    }
+
+    @Test
+    void shouldRenameProjectCorrectly(){
+        String testProjectName = "Issue tracker";
+
+        project.renameProject(testProjectName);
+
+        assertEquals(project.getProjectName(), testProjectName, "The name of the project cannot be changed correctly");
+    }
+
+    @Test
+    void shouldChangeDescriptionCorrectly(){
+        String testDescription = "My description";
+
+        project.changeDescription(testDescription);
+
+        assertEquals(project.getDescription(), testDescription, "The description of the project cannot be changed correctly");
     }
 }
