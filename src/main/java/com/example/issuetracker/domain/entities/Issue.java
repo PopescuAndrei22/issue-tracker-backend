@@ -47,27 +47,6 @@ public class Issue extends BaseEntity {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    private void assignToProject(Project project){
-        if(project == null){
-            throw new IllegalArgumentException("The project cannot be null");
-        }
-
-        this.project = project;
-    }
-
-    private void assignToAssignee(User assignee){
-
-        this.assignee = assignee;
-    }
-
-    private void assignToReporter(User reporter){
-        if(reporter == null){
-            throw new IllegalArgumentException("The reporter cannot be null");
-        }
-
-        this.reporter = reporter;
-    }
-
     public void changeStatus(Status newStatus){
         this.status = newStatus;
     }
@@ -88,16 +67,58 @@ public class Issue extends BaseEntity {
         this.title = title;
     }
 
+    private String validateTitle(String title){
+        if(title == null || title.isBlank()){
+            throw new IllegalArgumentException("The title cannot be empty");
+        }
+        return title;
+    }
+
+    private IssueType validateType(IssueType type){
+        if(type == null){
+            throw new IllegalArgumentException("The issue type must be provided");
+        }
+        return type;
+    }
+
+    private Priority validatePriority(Priority priority){
+        if(priority == null){
+            throw new IllegalArgumentException("The priority type must be provided");
+        }
+        return priority;
+    }
+
+    private String validateDescription(String description){
+        if(description == null || description.isBlank()){
+            return "";
+        }
+        return description;
+    }
+
+    private User validateUser(User user){
+        if(user == null){
+            throw new IllegalArgumentException("The user cannot be null");
+        }
+        return user;
+    }
+
+    private Project validateProject(Project project){
+        if(project == null){
+            throw new IllegalArgumentException("The project cannot be null");
+        }
+        return project;
+    }
+
     protected Issue() {}
 
     private Issue(IssueBuilder issueBuilder){
-        this.title = issueBuilder.title;
-        this.description = issueBuilder.description;
-        this.type = issueBuilder.type;
-        this.priority = issueBuilder.priority;
-        this.assignToReporter(issueBuilder.reporter);
-        this.assignToAssignee(issueBuilder.assignee);
-        this.assignToProject(issueBuilder.project);
+        this.title = validateTitle(issueBuilder.title);
+        this.description = validateDescription(issueBuilder.description);
+        this.type = validateType(issueBuilder.type);
+        this.priority = validatePriority(issueBuilder.priority);
+        this.reporter = validateUser(issueBuilder.reporter);
+        this.assignee = issueBuilder.assignee;
+        this.project = validateProject(issueBuilder.project);
     }
 
     public static IssueBuilder builder(){
@@ -147,24 +168,7 @@ public class Issue extends BaseEntity {
             return this;
         }
         public Issue build(){
-            validate();
             return new Issue(this);
         }
-
-        public void validate(){
-            if(this.title == null || this.title.isBlank()){
-                throw new IllegalArgumentException("The title cannot be empty");
-            }
-            if(this.type == null){
-                throw new IllegalArgumentException("The issue type must be provided");
-            }
-            if(this.reporter == null){
-                throw new IllegalArgumentException("The reporter must be provided");
-            }
-            if(this.project == null){
-                throw new IllegalArgumentException("The project must be provided");
-            }
-        }
     }
-    
 }
