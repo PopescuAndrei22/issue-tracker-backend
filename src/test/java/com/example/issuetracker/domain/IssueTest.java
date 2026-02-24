@@ -2,8 +2,6 @@ package com.example.issuetracker.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
@@ -12,22 +10,30 @@ import com.example.issuetracker.domain.entities.Issue;
 import com.example.issuetracker.domain.entities.Project;
 import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.domain.models.IssueType;
-import com.example.issuetracker.domain.models.Priority;
 import com.example.issuetracker.domain.models.Role;
 
-public class IssueTest {
+class IssueTest {
 
-    static User reporter;
-    static Project project;
+    private static User reporter;
+    private static Project project;
 
     @BeforeAll
     static void initialSetUp(){
-        reporter = mock(User.class);
-        project = mock(Project.class);
+        String username = "username123";
+        String password = "justapassword";
+        String email = "username23@company.com";
+        Role role = Role.USER;
+
+        reporter = new User(username, password, email, role);
+
+        String projectName = "Internal tool for HR";
+        String projectDescription = "Sample description";
+
+        project = new Project(projectName, reporter, projectDescription);
     }
 
     @Test
-    public void shouldThrowErrorWhenTitleIsMissing(){
+    void shouldThrowErrorWhenTitleIsMissing(){
 
         assertThatThrownBy(() -> 
                 Issue.builder()
@@ -48,7 +54,7 @@ public class IssueTest {
     }
 
     @Test
-    public void shouldThrowErrorWhenReporterIsMissing(){
+    void shouldThrowErrorWhenReporterIsMissing(){
 
         assertThatThrownBy(() -> 
                 Issue.builder()
@@ -60,7 +66,7 @@ public class IssueTest {
     }
 
     @Test
-    public void shouldThrowErrorWhenProjectIsMissing(){
+    void shouldThrowErrorWhenProjectIsMissing(){
 
         assertThatThrownBy(() -> 
                 Issue.builder()
@@ -72,7 +78,7 @@ public class IssueTest {
     }
 
     @Test
-    public void shouldThrowErrorWhenIssueTypeIsMissing(){
+    void shouldThrowErrorWhenIssueTypeIsMissing(){
 
         assertThatThrownBy(() -> 
                 Issue.builder()
