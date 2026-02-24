@@ -75,4 +75,8 @@ public class Project extends BaseEntity{
     public String getDescription(){
         return this.description;
     }
+
+    public User getOwner(){
+        return this.owner;
+    }
 }

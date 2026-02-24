@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -12,10 +13,11 @@ import com.example.issuetracker.domain.entities.Project;
 import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.domain.models.Role;
 
-public class ProjectTest {
+class ProjectTest {
 
     private static User owner;
-    private static Project project;
+
+    private Project project;
     
     @BeforeAll
     static void initialSetUp(){
@@ -25,7 +27,10 @@ public class ProjectTest {
         Role role = Role.USER;
 
         owner = new User(username, password, email, role);
+    }
 
+    @BeforeEach
+    void setupProject(){
         String projectName = "First project";
         String description = "";
 
@@ -80,5 +85,19 @@ public class ProjectTest {
         project.changeDescription(testDescription);
 
         assertEquals(project.getDescription(), testDescription, "The description of the project cannot be changed correctly");
+    }
+
+    @Test
+    void shouldTransferOwnershipCorrectly(){
+        String email = "Ajax@xcompany.com";
+        String username = "ajaxT2";
+        String password = "mypassword123";
+        Role role = Role.ADMIN;
+
+        User newOwner = new User(username, password, email, role);
+
+        project.transferOwnership(newOwner);
+
+        assertEquals(project.getOwner(), newOwner, "The ownership of the project cannot be changed correctly");
     }
 }

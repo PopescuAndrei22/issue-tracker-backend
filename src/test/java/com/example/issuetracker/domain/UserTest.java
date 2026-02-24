@@ -3,7 +3,7 @@ package com.example.issuetracker.domain;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -11,12 +11,12 @@ import org.junit.jupiter.params.provider.EnumSource;
 import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.domain.models.Role;
 
-public class UserTest {
+class UserTest {
 
-    private static User user;
+    private User user;
 
-    @BeforeAll
-    static void initialSetUp(){
+    @BeforeEach
+    void setupUser(){
         String email = "Andrew@mycompany.com";
         String username = "andrew123";
         String password = "somepassword";
