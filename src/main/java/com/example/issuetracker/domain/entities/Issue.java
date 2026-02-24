@@ -53,16 +53,11 @@ public class Issue extends BaseEntity {
         }
 
         this.project = project;
-        project.addIssue(this);
     }
 
     private void assignToAssignee(User assignee){
 
         this.assignee = assignee;
-
-        if(assignee != null){
-            assignee.addAssignedIssue(this);
-        }
     }
 
     private void assignToReporter(User reporter){
@@ -71,7 +66,6 @@ public class Issue extends BaseEntity {
         }
 
         this.reporter = reporter;
-        reporter.addReportedIssue(this);
     }
 
     public void changeStatus(Status newStatus){

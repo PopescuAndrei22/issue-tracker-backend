@@ -1,15 +1,11 @@
 package com.example.issuetracker.domain.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.issuetracker.domain.models.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,35 +24,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-
-    @OneToMany(mappedBy="owner")
-    private final List<Project> projects = new ArrayList<>();
-
-    @OneToMany(mappedBy="assignee")
-    private final List<Issue> assignedIssues = new ArrayList<>();
-
-    @OneToMany(mappedBy="reporter")
-    private final List<Issue> reportedIssues = new ArrayList<>();
-
-    void addProject(Project project){
-        this.projects.add(project);
-    }
-
-    void removeProject(Project project){
-        this.projects.remove(project);
-    }
-
-    void addAssignedIssue(Issue issue){
-        this.assignedIssues.add(issue);
-    }
-
-    void removeAssignedIssue(Issue issue){
-        this.assignedIssues.remove(issue);
-    }
-
-    void addReportedIssue(Issue issue){
-        this.reportedIssues.add(issue);
-    }
 
     protected User() {}
 
@@ -98,24 +65,12 @@ public class User extends BaseEntity {
         return role;
     }
 
-    public void changeUsername(String username){
-        this.username = validateUsername(username);
-    }
-
     public void changeEmail(String email){
         this.email = validateEmail(email);
     }
 
-    public void changePassword(String password){
-        this.password = validatePassword(password);
-    }
-
     public void changeRole(Role role){
         this.role = validateRole(role);
-    }
-
-    public boolean matchesPassword(String password){
-        return this.password.equals(validatePassword(password));
     }
 
     public String getUsername(){
@@ -132,17 +87,5 @@ public class User extends BaseEntity {
 
     public Long getId(){
         return id;
-    }
-    
-    public List<Project> getProjects(){
-        return List.copyOf(this.projects);
-    }
-
-    public List<Issue> getAssignedIssues(){
-        return List.copyOf(this.assignedIssues);
-    }
-
-    public List<Issue> getReportedIssues(){
-        return List.copyOf(this.reportedIssues);
     }
 }
