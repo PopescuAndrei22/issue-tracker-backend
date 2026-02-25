@@ -68,7 +68,7 @@ public class Project extends BaseEntity{
         this.description = description;
     }
 
-    public String getProjectName(){
+    public String getName(){
         return this.name;
     }
 
@@ -78,5 +78,9 @@ public class Project extends BaseEntity{
 
     public User getOwner(){
         return this.owner;
+    }
+
+    public Long getId(){
+        return this.id;
     }
 }

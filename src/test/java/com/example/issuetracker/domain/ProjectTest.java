@@ -75,7 +75,7 @@ class ProjectTest {
 
         project.renameProject(testProjectName);
 
-        assertEquals(project.getProjectName(), testProjectName, "The name of the project cannot be changed correctly");
+        assertEquals(project.getName(), testProjectName, "The name of the project cannot be changed correctly");
     }
 
     @Test
