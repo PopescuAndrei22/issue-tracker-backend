@@ -2,6 +2,7 @@ package com.example.issuetracker.services;
 
 import org.springframework.stereotype.Service;
 
+import com.example.issuetracker.domain.entities.Project;
 import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.repositories.ProjectRepository;
 import com.example.issuetracker.web.dto.ProjectCreateDTO;
@@ -27,5 +28,26 @@ public class ProjectService {
         this.projectRepository = projectRepository;
         this.userService = userService;
         this.projectMapper = projectMapper;
+    }
+
+    public ProjectResponseDTO createProject(ProjectCreateDTO dto){
+
+        User owner = userService.getUserEntityById(dto.ownerId());
+
+        Project project = new Project(
+            dto.name(),
+            owner,
+            dto.description()
+        );
+
+        Project savedProject = projectRepository.save(project);
+
+        return projectMapper.toResponseDTO(savedProject);
+    }
+
+    public ProjectResponseDTO getProjectById(Long id){
+        return projectRepository.findById(id)
+                                .map(projectMapper::toResponseDTO)
+                                .orElseThrow(() -> new RuntimeException("Project with id " + id + " not found."));
     }
 }

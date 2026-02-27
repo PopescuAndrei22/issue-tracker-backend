@@ -11,7 +11,7 @@ public record ProjectCreateDTO(
     String name,
 
     @NotNull(message = "The owner ID cannot be blank")
-    Long ownerID,
+    Long ownerId,
 
     String description
 )

@@ -49,4 +49,9 @@ public class UserService {
                                 .map(userMapper::toResponseDTO)
                                 .orElseThrow(() -> new RuntimeException("User with id " + id + " not found."));
     }
+
+    User getUserEntityById(Long id){
+        return userRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("User entity with id " + id + " not found."));
+    }
 }
