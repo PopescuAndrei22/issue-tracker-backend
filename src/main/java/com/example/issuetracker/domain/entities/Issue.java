@@ -67,6 +67,42 @@ public class Issue extends BaseEntity {
         this.title = title;
     }
 
+    public Project getProject(){
+        return this.project;
+    }
+
+    public User getReporter(){
+        return this.reporter;
+    }
+
+    public User getAssignee(){
+        return this.assignee;
+    }
+
+    public String getTitle(){
+        return this.title;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public IssueType getType(){
+        return this.type;
+    }
+
+    public Priority getPriority(){
+        return this.priority;
+    }
+
+    public Status getStatus(){
+        return this.status;
+    }
+
+    public Long getId(){
+        return this.id;
+    }
+
     private String validateTitle(String title){
         if(title == null || title.isBlank()){
             throw new IllegalArgumentException("The title cannot be empty");

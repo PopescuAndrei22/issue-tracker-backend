@@ -7,4 +7,5 @@ public record UserResponseDTO(
     String username,
     String email,
     Role role
-) {}
+) 
+{}
