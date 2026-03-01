@@ -50,4 +50,9 @@ public class ProjectService {
                                 .map(projectMapper::toResponseDTO)
                                 .orElseThrow(() -> new RuntimeException("Project with id " + id + " not found."));
     }
+
+    Project getProjectEntityById(Long id){
+        return projectRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Project with id " + id + " not found."));
+    }
 }
