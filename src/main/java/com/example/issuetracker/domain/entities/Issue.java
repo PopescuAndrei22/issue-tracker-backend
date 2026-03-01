@@ -117,13 +117,6 @@ public class Issue extends BaseEntity {
         return type;
     }
 
-    private Priority validatePriority(Priority priority){
-        if(priority == null){
-            throw new IllegalArgumentException("The priority type must be provided");
-        }
-        return priority;
-    }
-
     private String validateDescription(String description){
         if(description == null || description.isBlank()){
             return "";
@@ -151,7 +144,7 @@ public class Issue extends BaseEntity {
         this.title = validateTitle(issueBuilder.title);
         this.description = validateDescription(issueBuilder.description);
         this.type = validateType(issueBuilder.type);
-        this.priority = validatePriority(issueBuilder.priority);
+        this.priority = issueBuilder.priority;
         this.reporter = validateUser(issueBuilder.reporter);
         this.assignee = issueBuilder.assignee;
         this.project = validateProject(issueBuilder.project);
