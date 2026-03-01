@@ -1,0 +1,43 @@
+package com.example.issuetracker.web.controllers;
+
+import java.net.URI;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.issuetracker.services.IssueService;
+import com.example.issuetracker.web.dto.IssueCreateDTO;
+import com.example.issuetracker.web.dto.IssueResponseDTO;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/issues")
+public class IssueController {
+
+    private final IssueService issueService;
+
+    public IssueController(IssueService issueService){
+        this.issueService = issueService;
+    }
+
+    @PostMapping
+    public ResponseEntity<IssueResponseDTO> createIssue(@Valid @RequestBody IssueCreateDTO dto){
+        IssueResponseDTO createdIssue = issueService.createIssue(dto);
+
+        URI location = URI.create("/issues/" + createdIssue.id());
+        
+        return ResponseEntity.created(location).body(createdIssue);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<IssueResponseDTO> getIssueById(@PathVariable Long id){
+        return ResponseEntity.ok(issueService.getIssueById(id));
+    }
+
+}
