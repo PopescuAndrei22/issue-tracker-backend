@@ -85,6 +85,10 @@ public class User extends BaseEntity {
         return this.role;
     }
 
+    public String getPassword(){
+        return this.password;
+    }
+
     public Long getId(){
         return id;
     }

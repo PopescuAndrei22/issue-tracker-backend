@@ -1,5 +1,5 @@
 package com.example.issuetracker.services;
 
-public class IssueServiceTest {
-    
+class IssueServiceTest {
+
 }
