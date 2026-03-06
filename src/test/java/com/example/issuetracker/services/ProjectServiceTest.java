@@ -1,20 +1,20 @@
 package com.example.issuetracker.services;
 
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
-
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.issuetracker.domain.entities.Project;
@@ -73,5 +73,21 @@ class ProjectServiceTest {
         assertEquals(project.getName(), projectName);
         assertEquals(project.getDescription(), description);
         verify(projectMapper).toResponseDTO(any(Project.class));
+    }
+
+    @Test
+    void shouldThrowWhenProjectDoesNotExist(){
+        Long projectId = 99L;
+        when(projectRepository.findById(projectId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> 
+                projectService.getProjectById(projectId))
+            .isInstanceOf(RuntimeException.class);
+
+        assertThatThrownBy(() -> 
+                projectService.getProjectEntityById(projectId))
+            .isInstanceOf(RuntimeException.class);
+
+        verifyNoInteractions(projectMapper);
     }
 }
