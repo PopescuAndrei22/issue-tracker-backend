@@ -62,6 +62,7 @@ class UserServiceTest {
         verify(userRepository).save(userCaptor.capture());
         User savedUser = userCaptor.getValue();
         assertEquals(hashedPassword, savedUser.getPassword());
+        verify(userMapper).toResponseDTO(any(User.class));
     }
 
     @Test
