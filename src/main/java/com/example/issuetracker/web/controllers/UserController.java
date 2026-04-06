@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.issuetracker.services.UserService;
 import com.example.issuetracker.web.dto.UserCreateDTO;
@@ -30,7 +31,11 @@ public class UserController {
 
         UserResponseDTO createdUser = userService.createUser(dto);
 
-        URI location = URI.create("/users/" + createdUser.id());
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdUser.id())
+                .toUri();
 
         return ResponseEntity
                 .created(location)
