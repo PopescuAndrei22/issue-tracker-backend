@@ -50,7 +50,8 @@ class UserControllerTest {
             .andExpect(header().string("Location", containsString("/api/users/1")))
             .andExpect(jsonPath("$.id").value(1))
             .andExpect(jsonPath("$.username").value("bobname"))
-            .andExpect(jsonPath("$.email").value("bobemail@gmail.com"));
+            .andExpect(jsonPath("$.email").value("bobemail@gmail.com"))
+            .andExpect(jsonPath("$.role").value("USER"));
     }
 
     @Test

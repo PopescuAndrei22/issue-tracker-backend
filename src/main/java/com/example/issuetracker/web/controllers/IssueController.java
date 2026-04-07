@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.issuetracker.services.IssueService;
 import com.example.issuetracker.web.dto.IssueCreateDTO;
@@ -30,7 +31,11 @@ public class IssueController {
     public ResponseEntity<IssueResponseDTO> createIssue(@Valid @RequestBody IssueCreateDTO dto){
         IssueResponseDTO createdIssue = issueService.createIssue(dto);
 
-        URI location = URI.create("/issues/" + createdIssue.id());
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdIssue.id())
+                .toUri();
         
         return ResponseEntity.created(location).body(createdIssue);
     }
