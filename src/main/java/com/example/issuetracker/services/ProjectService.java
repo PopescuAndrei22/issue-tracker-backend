@@ -1,5 +1,7 @@
 package com.example.issuetracker.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.issuetracker.domain.entities.Project;
@@ -43,6 +45,13 @@ public class ProjectService {
         Project savedProject = projectRepository.save(project);
 
         return projectMapper.toResponseDTO(savedProject);
+    }
+
+    public Page<ProjectResponseDTO> getProjectsByOwner(Long ownerId, Pageable pageable) {
+        
+            Page<Project> projectPage = projectRepository.findByOwnerId(ownerId, pageable);
+
+            return projectPage.map(projectMapper::toResponseDTO);
     }
 
     public ProjectResponseDTO getProjectById(Long id){
