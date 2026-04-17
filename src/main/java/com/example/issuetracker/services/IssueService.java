@@ -1,5 +1,7 @@
 package com.example.issuetracker.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.issuetracker.domain.entities.Issue;
@@ -49,6 +51,24 @@ public class IssueService {
         Issue savedIssue = issueRepository.save(issue);
 
         return issueMapper.toResponseDTO(savedIssue);
+    }
+
+    public Page<IssueResponseDTO> getIssuesAssignedToUser(Long userId, Pageable pageable) {
+        Page<Issue> issuePage = issueRepository.findByAssigneeId(userId, pageable);
+
+        return issuePage.map(issueMapper::toResponseDTO);
+    }
+
+    public Page<IssueResponseDTO> getIssuesAssignedToReporter(Long reporterId, Pageable pageable) {
+        Page<Issue> issuePage = issueRepository.findByReporterId(reporterId, pageable);
+
+        return issuePage.map(issueMapper::toResponseDTO);
+    }
+
+    public Page<IssueResponseDTO> getIssuesAssignedToProject(Long projectId, Pageable pageable) {
+        Page<Issue> issuePage = issueRepository.findByProjectId(projectId, pageable);
+
+        return issuePage.map(issueMapper::toResponseDTO);
     }
 
     public IssueResponseDTO getIssueById(Long id){
