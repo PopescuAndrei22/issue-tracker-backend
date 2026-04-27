@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.domain.models.Role;
+import com.example.issuetracker.exceptions.ResourceNotFoundException;
 import com.example.issuetracker.repositories.UserRepository;
 import com.example.issuetracker.web.dto.UserCreateDTO;
 import com.example.issuetracker.web.mappers.UserMapper;
@@ -72,11 +73,11 @@ class UserServiceTest {
 
         assertThatThrownBy(() -> 
                 userService.getUserById(userId))
-            .isInstanceOf(RuntimeException.class);
+            .isInstanceOf(ResourceNotFoundException.class);
 
         assertThatThrownBy(() -> 
                 userService.getUserEntityById(userId))
-            .isInstanceOf(RuntimeException.class);
+            .isInstanceOf(ResourceNotFoundException.class);
 
         verifyNoInteractions(userMapper);
     }

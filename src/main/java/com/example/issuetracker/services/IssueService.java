@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.issuetracker.domain.entities.Issue;
 import com.example.issuetracker.domain.entities.Project;
 import com.example.issuetracker.domain.entities.User;
+import com.example.issuetracker.exceptions.ResourceNotFoundException;
 import com.example.issuetracker.repositories.IssueRepository;
 import com.example.issuetracker.web.dto.IssueCreateDTO;
 import com.example.issuetracker.web.dto.IssueResponseDTO;
@@ -74,6 +75,6 @@ public class IssueService {
     public IssueResponseDTO getIssueById(Long id){
         return issueRepository.findById(id)
                               .map(issueMapper::toResponseDTO)
-                              .orElseThrow(() -> new RuntimeException("The issue with id " + id + " not found."));
+                              .orElseThrow(() -> new ResourceNotFoundException("Issue", id));
     }
 }

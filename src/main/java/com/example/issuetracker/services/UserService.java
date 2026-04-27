@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.issuetracker.domain.entities.User;
+import com.example.issuetracker.exceptions.ResourceNotFoundException;
 import com.example.issuetracker.repositories.UserRepository;
 import com.example.issuetracker.web.dto.UserCreateDTO;
 import com.example.issuetracker.web.dto.UserResponseDTO;
@@ -47,11 +48,11 @@ public class UserService {
     public UserResponseDTO getUserById(Long id){
         return userRepository.findById(id)
                                 .map(userMapper::toResponseDTO)
-                                .orElseThrow(() -> new RuntimeException("User with id " + id + " not found."));
+                                .orElseThrow(() -> new ResourceNotFoundException("User", id));
     }
 
     User getUserEntityById(Long id){
         return userRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException("User entity with id " + id + " not found."));
+                                .orElseThrow(() -> new ResourceNotFoundException("User entity", id));
     }
 }

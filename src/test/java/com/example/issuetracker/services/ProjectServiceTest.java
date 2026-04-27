@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.example.issuetracker.domain.entities.Project;
 import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.domain.models.Role;
+import com.example.issuetracker.exceptions.ResourceNotFoundException;
 import com.example.issuetracker.repositories.ProjectRepository;
 import com.example.issuetracker.web.dto.ProjectCreateDTO;
 import com.example.issuetracker.web.mappers.ProjectMapper;
@@ -82,11 +83,11 @@ class ProjectServiceTest {
 
         assertThatThrownBy(() -> 
                 projectService.getProjectById(projectId))
-            .isInstanceOf(RuntimeException.class);
+            .isInstanceOf(ResourceNotFoundException.class);
 
         assertThatThrownBy(() -> 
                 projectService.getProjectEntityById(projectId))
-            .isInstanceOf(RuntimeException.class);
+            .isInstanceOf(ResourceNotFoundException.class);
 
         verifyNoInteractions(projectMapper);
     }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.issuetracker.domain.entities.Project;
 import com.example.issuetracker.domain.entities.User;
+import com.example.issuetracker.exceptions.ResourceNotFoundException;
 import com.example.issuetracker.repositories.ProjectRepository;
 import com.example.issuetracker.web.dto.ProjectCreateDTO;
 import com.example.issuetracker.web.dto.ProjectResponseDTO;
@@ -57,11 +58,11 @@ public class ProjectService {
     public ProjectResponseDTO getProjectById(Long id){
         return projectRepository.findById(id)
                                 .map(projectMapper::toResponseDTO)
-                                .orElseThrow(() -> new RuntimeException("Project with id " + id + " not found."));
+                                .orElseThrow(() -> new ResourceNotFoundException("Project", id));
     }
 
     Project getProjectEntityById(Long id){
         return projectRepository.findById(id)
-                                .orElseThrow(() -> new RuntimeException("Project with id " + id + " not found."));
+                                .orElseThrow(() -> new ResourceNotFoundException("Project", id));
     }
 }

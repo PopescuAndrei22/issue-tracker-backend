@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.example.issuetracker.exceptions.ResourceNotFoundException;
 import com.example.issuetracker.web.dto.error.ApiError;
 
 @RestControllerAdvice
@@ -15,6 +16,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleDtoValidationErrors(MethodArgumentNotValidException ex) {
         String firstError = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
         return buildResponse(HttpStatus.BAD_REQUEST, "Validation failed! Reason: " + firstError);
+
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiError> handleDtoValidationErrors(ResourceNotFoundException ex) {
+        String message = ex.getResource() + "with ID: " + ex.getId() + " not found.";
+        return buildResponse(HttpStatus.NOT_FOUND, message);
 
     }
 

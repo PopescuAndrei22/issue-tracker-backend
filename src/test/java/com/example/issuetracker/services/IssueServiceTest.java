@@ -26,6 +26,7 @@ import com.example.issuetracker.domain.entities.User;
 import com.example.issuetracker.domain.models.IssueType;
 import com.example.issuetracker.domain.models.Priority;
 import com.example.issuetracker.domain.models.Role;
+import com.example.issuetracker.exceptions.ResourceNotFoundException;
 import com.example.issuetracker.repositories.IssueRepository;
 import com.example.issuetracker.web.dto.IssueCreateDTO;
 import com.example.issuetracker.web.mappers.IssueMapper;
@@ -106,7 +107,7 @@ class IssueServiceTest {
 
         assertThatThrownBy(() -> 
                 issueService.getIssueById(issueId))
-            .isInstanceOf(RuntimeException.class);
+            .isInstanceOf(ResourceNotFoundException.class);
 
         verifyNoInteractions(issueMapper);
     }
