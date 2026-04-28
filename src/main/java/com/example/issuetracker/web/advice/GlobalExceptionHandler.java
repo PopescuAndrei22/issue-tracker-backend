@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleResourceNotFoundErrors(ResourceNotFoundException ex) {
-        String message = ex.getResource() + "with ID: " + ex.getId() + " not found.";
+        String message = ex.getResource() + " with ID: " + ex.getId() + " not found.";
 
         log.info("Resource not found: {} ID: {}", ex.getResource(), ex.getId());
 
